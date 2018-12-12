@@ -20,12 +20,20 @@ public class RegistAction extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
 		
-		if(new User(id, password).regist()) {
+		System.out.println("Call handleRegist	id:" + id + "	password:" + password);
+		if(id.equals("") || password.equals("")) {
+			session.setAttribute("registMessage", "Some messages are blank!");
+			System.out.println("handleRegist back!");
+			return "error";
+		}
+		else if(new User(id, password).regist()) {
 			session.setAttribute("id", id);
+			System.out.println("handleRegist back!");
 			return "ok";
 		}
 		else {
 			session.setAttribute("registMessage", "ID already exists!");
+			System.out.println("handleRegist back!");
 			return "error";
 		}
 	}

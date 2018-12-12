@@ -20,12 +20,15 @@ public class LoginAction extends HttpServlet {
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
 		
+		System.out.println("Call handleLogin	id:" + id + "	password:" + password);
 		if(new User(id, password).login()) {
 			session.setAttribute("id", id);
+			System.out.println("handleLogin back!");
 			return "ok";
 		}
 		else {
 			session.setAttribute("loginMessage", "ID or password error!");
+			System.out.println("handleLogin back!");
 			return "error";
 		}
 	}

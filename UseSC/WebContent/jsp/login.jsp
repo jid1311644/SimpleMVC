@@ -19,7 +19,7 @@
 			</div>
 			<br>
 			<div>
-				Please register:<a href="/UserSC/jsp/regist.jsp">Register</a>
+				Please register:<a href="/UseSC/jsp/regist.jsp">Register</a>
 			</div>
 			<%
 				session.removeAttribute("loginMessage");

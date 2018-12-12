@@ -32,7 +32,9 @@ public class User {
 	
 	//login
 	public boolean login() {
+		System.out.println("Call User.login	id:" + id + "	password:" + psw);
 		String password = "";
+		int count = 0;
 		try {
 			Connection c = DriverManager.getConnection(
 					this.URL, this.USERNAME, this.PASSWORD);
@@ -40,9 +42,11 @@ public class User {
 			//数据库中查找用户
 			String sql = "select password from user "
 					+ "where username='" + id + "'";
+			System.out.println("sql:" + sql);
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()) {
 				password = rs.getString("password");
+				count++;
 			}
 			rs.close();
 			st.close();
@@ -51,17 +55,21 @@ public class User {
 			e.printStackTrace();
 		}
 		//比较数据库中密码与用户输入的密码是否匹配
-		return password.equals(psw);
+		boolean f;
+		System.out.println("User.login back! " + (f = (count == 1) && password.equals(psw)));
+		return f;
 	}
 	
 	//regist
 	public boolean regist() {
+		System.out.println("Call User.regist	id:" + id + "	password:" + psw);
 		boolean f = true;
 		try {
 			Connection c = DriverManager.getConnection(
 					this.URL, this.USERNAME, this.PASSWORD);
 			//插入数据
 			String sql = "insert into tracing.user values(?,?)";
+			System.out.println("sql:" + sql);
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.setString(2, psw);
@@ -73,6 +81,7 @@ public class User {
 			//插入失败说明用户已存在
 			f = false;
 		}
+		System.out.println("User.regist back! " + f);
 		return f;
 	}
 	

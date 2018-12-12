@@ -24,6 +24,8 @@ public class SimpleController extends HttpServlet {
 	public void doGet(HttpServletRequest req,
 			HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		System.out.println("This is doGet. Call doPost..");
 		doPost(req, resp);
 	}
 	
@@ -32,20 +34,31 @@ public class SimpleController extends HttpServlet {
 			HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		System.out.println("This is doPost. Setting type..");
 		//设置界面格式
 		resp.setContentType("text/html; charset=GBK");
 		resp.setCharacterEncoding("utf-8");
 		req.setCharacterEncoding("utf-8");
-/*		
+		
+		//第二次实验
+		//解析servlet的action和controller.xml的目录
 		String actionName = req.getServletPath().toString();
 		String[] actionUrl = actionName.split("/");
-		actionName = actionUrl[actionUrl.length - 1].substring(0, actionName.indexOf("."));
+		actionName = actionUrl[actionUrl.length - 1];
+		actionName = actionName.substring(0, actionName.indexOf("."));
+		System.out.println("actionName:" + actionName);
 		String path = this.getServletContext().getRealPath("WEB-INF/classes/controller.xml");
+		System.out.println("path:" + path);
+		
+		//调用readXML方法实现对action具体内容的解析
 		Map<String, String> actionMap = new XMLTool().readXML(actionName, path);
+		System.out.println("Map:\n" + actionMap.toString());
+		
 		if(!actionMap.isEmpty()) {
 			String className = actionMap.get("class");
 			String methodName = actionMap.get("method");
 			try {
+				//获取类名和方法名，通过invoke方法调用实现该方法得到返回值result
 				Class<?> c = Class.forName(className);
 				Method m = c.getDeclaredMethod(methodName,
 						HttpServletRequest.class, HttpServletResponse.class);
@@ -54,6 +67,8 @@ public class SimpleController extends HttpServlet {
 				String resType = resName.substring(0, resName.indexOf("-"));
 				String resValue = resName.substring(resName.indexOf("-") + 1);
 				
+				//解析得到返回值result的具体内容，根据value值进行页面跳转
+				System.out.println("<result> name=" + resName + " type=" + resType + " value=" + resValue);
 				if(resType.equals("foward")) {
 					req.getRequestDispatcher(resValue).forward(req, resp);
 				}
@@ -86,8 +101,11 @@ public class SimpleController extends HttpServlet {
 		}
 		else {
 			resp.sendRedirect("/UseSC/jsp/login.jsp");
-		}*/
-
+		}
+		System.out.println("doPost back!");
+		
+		//第一次实验
+/*
 		final PageContext pageContext;
 		JspWriter out = null;
 		
@@ -128,7 +146,7 @@ public class SimpleController extends HttpServlet {
 			}
 		}finally {
 			jspFactory.releasePageContext(jspPageContent);
-		}
+		}*/
 		
 	}
 

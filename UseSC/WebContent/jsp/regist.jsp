@@ -19,7 +19,7 @@
 			<h3>Please register:</h3><br>
 			<form action="regist.sc" name="loginForm" accept-charset="utf-8">
 				<div> New ID :<input type="text" name="id"/></div>
-				<div>Password:<input type="password" name="id"/></div>
+				<div>Password:<input type="password" name="password"/></div>
 				<div><input type="submit" name="regist" value="Register"/></div>
 			</form>
 			<div>
