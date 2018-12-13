@@ -8,9 +8,9 @@ import java.sql.Statement;
 
 public class User {
 
-	private static final String URL = "jdbc:mysql://localhost:3306/tracing?serverTimezone=GMT%2B8&useSSL=false";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "Jellal20143647";
+	public static final String URL = "jdbc:mysql://localhost:3306/j2ee_expiration_data?serverTimezone=GMT%2B8&useSSL=false";
+	public static final String USERNAME = "root";
+	public static final String PASSWORD = "Jellal20143647";
 	
 	private String id;
 	private String psw;
@@ -68,7 +68,7 @@ public class User {
 			Connection c = DriverManager.getConnection(
 					this.URL, this.USERNAME, this.PASSWORD);
 			//≤Â»Î ˝æ›
-			String sql = "insert into tracing.user values(?,?)";
+			String sql = "insert into j2ee_expiration_data.user values(?,?)";
 			System.out.println("sql:" + sql);
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, id);
