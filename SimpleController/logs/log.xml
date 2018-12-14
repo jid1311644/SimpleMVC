@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-15 02:04:44:335</s-time>
+		<e-time>2018-12-15 02:04:44:795</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-15 02:05:25:695</s-time>
+		<e-time>2018-12-15 02:05:25:985</e-time>
+		<result>error</result>
+	</action>
+	<!-- other actions -->
+</log>

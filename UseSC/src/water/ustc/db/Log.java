@@ -1,16 +1,12 @@
 package water.ustc.db;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.LinkedList;
 
 public class Log {
 	
@@ -24,118 +20,61 @@ public class Log {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.result = result;
-		//连接数据库
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("Success loading MySql Driver!");
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Error loading MySql Driver!");
-			e.printStackTrace();
-		}
-	}
-	
-	public Log(String id, String name, String startTime, String endTime, String result) {
-		this.name = name;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.result = result;
 	}
 	
 	//add
-	public boolean add(String id) {
+	static public boolean add(Log log) {
 		boolean f = true;
 		System.out.println("Call Log.add ...");
 		try {
-			Connection c = DriverManager.getConnection(
-					User.URL, User.USERNAME, User.PASSWORD);
-			//插入数据
-			String sql = "insert into j2ee_expiration_data.log values(?,?,?,?,?)";
-			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.setString(2, name);
-			ps.setString(3, startTime);
-			ps.setString(4, endTime);
-			ps.setString(5, result);
-			ps.executeUpdate();
-			ps.close();
-			c.close();
-		}catch (Exception e) {
-			// TODO: handle exception
-			f = false;
-			e.printStackTrace();
-		}
-		return f;
-	}
-	
-	//save
-	public boolean save(String id){
-		LinkedList<Log> logs = new LinkedList<>();
-		try {
-			Connection c = DriverManager.getConnection(
-						User.URL, User.USERNAME, User.PASSWORD);
-
-			Statement st = c.createStatement();
-			//数据库中读取Log
-			String sql = "select * from log "
-					+ "where username='" + id + "'";
-			System.out.println("sql:" + sql);
-			ResultSet rs = st.executeQuery(sql);
-			while(rs.next()) {
-				logs.add(new Log(id, rs.getString("action_name"), 
-						rs.getString("start_time"), 
-						rs.getString("end_time"), 
-						rs.getString("result")));
-			}
-			rs.close();
-			st.close();
-		}catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		if(logs.isEmpty()) {
-			return false;
-		}
-		
-		//编写.xml文件
-		StringBuffer sb = new StringBuffer();
-		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
-				+ "<log>\r\n");
-		while(!logs.isEmpty()) {
-			sb.append("	<action>\r\n"
-					+ "		<name>" + logs.peekFirst().name + "</name>\r\n"
-					+ "		<s-time>" + logs.peekFirst().startTime + "</s-time>\r\n"
-					+ "		<e-time>" + logs.peekFirst().endTime + "</e-time>\r\n"
-					+ "		<result>" + logs.pollFirst().result + "</result>\r\n"
-					+ "	</action>\r\n"
-					);
-		}
-		sb.append("	<!-- other actions -->\r\n</log>\r\n");
-		
-		try {
-			//保存.xml文件
-			File file = new File("./logs/log_" + id + ".xml");
-			if(!file.exists()) {
+			File file = new File("D:/JavaProject/SimpleMVC/"
+					+ "SimpleController/logs/log.xml");
+			StringBuffer sb = new StringBuffer();
+			if(file.exists()) {//如果已有log文件，读取其内容
+				FileInputStream fis = new FileInputStream(file);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader br = new BufferedReader(isr);
+				sb = new StringBuffer();
+				String line;
+				while((line = br.readLine()) != null) {
+					sb.append(line + "\r\n");
+				}
+				br.close();
+				isr.close();
+				fis.close();
 				file.delete();
 			}
+			else {//否则新建log文件
+				sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
+						"<log>\r\n" + 
+						"	<!-- other actions -->\r\n" + 
+						"</log>");
+			}
+			//编辑log内容
+			String str = sb.toString();
+			str = str.substring(0, str.lastIndexOf("	<!-- other actions -->"));
+			sb = new StringBuffer(str);
+			sb.append("	<action>\r\n"
+					+ "		<name>" + log.name + "</name>\r\n"
+					+ "		<s-time>" + log.startTime + "</s-time>\r\n"
+					+ "		<e-time>" + log.endTime + "</e-time>\r\n"
+					+ "		<result>" + log.result + "</result>\r\n"
+					+ "	</action>\r\n");
+			sb.append("	<!-- other actions -->\r\n</log>\r\n");
+			//保存log文件
 			file.createNewFile();
-			PrintWriter pw = new PrintWriter(new FileOutputStream(file));
+			FileOutputStream fos = new FileOutputStream(file);
+			PrintWriter pw = new PrintWriter(fos);
 			pw.write(sb.toString());
 			pw.flush();
 			pw.close();
+			fos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			f = false;
 		}
-		
-		return true;
+		return f;
 	}
-//	
-//	public static void main(String[] args) {
-//		Log l = new Log("login", "2018-12-13 18:05:03", "2018-12-13 18:05:54", "error");
-//		System.out.println(l.save("admin"));
-//	}
 
 }

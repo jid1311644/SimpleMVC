@@ -16,7 +16,7 @@ public class XMLTool {
 	//解析Interceptor
 	public LinkedList<InterceptorBean> readInterceptor(String path) 
 			throws FileNotFoundException {
-		System.out.println("Call XMLTool.readInterceptor");
+		System.out.println("Call XMLTool.readInterceptor ...");
 		//字节流读入
 		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
 		StringBuilder sb = new StringBuilder();
@@ -29,7 +29,25 @@ public class XMLTool {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		//解析拦截器，读取拦截器部分XML代码
 		LinkedList<InterceptorBean> beans = new LinkedList<>();
+		String interceptorXML = sb.toString();
+		interceptorXML = interceptorXML.substring(0, interceptorXML.indexOf("</interceptors>") + 15);
+		//解析有拦截器栈的情况
+		Map<String, String> interceptorStack = new HashMap<>();
+		if(interceptorXML.indexOf("<interceptor-stack") != -1) {
+			String[] stacks = interceptorXML.split("<interceptor-stack name=\"");
+			for(int i = 1; i < stacks.length; i++) {
+				String[] inters = stacks[i].split("<interceptro-ref name=\"");
+				String stackName = inters[0].substring(0, inters[0].indexOf("\""));
+				for(int j = 1; j < inters.length; j++) {
+					String interName = inters[j].substring(0, inters[j].indexOf("\""));
+					interceptorStack.put(interName, stackName);
+				}
+			}
+		}
+		//解析拦截器的注册部分代码
 		String[] inters = sb.toString().split("<interceptor ");
 		for(int i = 1; i < inters.length; i++) {
 			//解析每个Interceptor
@@ -41,7 +59,13 @@ public class XMLTool {
 			interceptorPredo = interceptorPredo.substring(0, interceptorPredo.indexOf("\""));
 			String interceptorAfterdo = inters[i].substring(inters[i].indexOf("afterdo=\"") + 9);
 			interceptorAfterdo = interceptorAfterdo.substring(0, interceptorAfterdo.indexOf("\""));
-			beans.add(new InterceptorBean(interceptorName, interceptorClass, interceptorPredo, interceptorAfterdo));
+			String stackName;
+			if((stackName = interceptorStack.get(interceptorName)) != null) {
+				beans.add(new InterceptorBean(interceptorName, interceptorClass, interceptorPredo, interceptorAfterdo, stackName));
+			}
+			else {
+				beans.add(new InterceptorBean(interceptorName, interceptorClass, interceptorPredo, interceptorAfterdo, "null"));
+			}
 		}
 		System.out.println("XMLTool.readInterceptor back!");
 		return beans;
@@ -50,7 +74,7 @@ public class XMLTool {
 	//解析Action
 	public ActionBean readAction(String action, String path) 
 			throws FileNotFoundException {
-		System.out.println("Call XMLTool.readAction");
+		System.out.println("Call XMLTool.readAction ...");
 		//字节流读入
 		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
 		StringBuilder sb = new StringBuilder();
@@ -80,7 +104,7 @@ public class XMLTool {
 				String[] interceptors = acName.split("<interceptro-ref name=\"");
 				for(int j = 1; j < interceptors.length; j++) {
 					String interceptroRefName = interceptors[j].substring(0, interceptors[j].indexOf("\""));
-					actionBean.addActionInterceptors(interceptroRefName);
+					actionBean.addActionInterceptorRefs(interceptroRefName);
 				}
 				//解析result
 				String[] result = acName.split("<result");
@@ -99,16 +123,11 @@ public class XMLTool {
 						actionBean.setResultError(resName, resType, resValue);
 					}
 				}
-				System.out.println("XMLTool.readXML back!");
+				System.out.println("XMLTool.readAction back!");
 				return actionBean;
 			}
 		}
-		System.out.println("XMLTool.readXML back!");
-		return null;
-	}
-	
-	//解析Interceptor
-	public InterceptorBean readInterceptor() {
+		System.out.println("XMLTool.readAction back!");
 		return null;
 	}
 	

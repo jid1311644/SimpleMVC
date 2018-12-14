@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import sc.ustc.beans.ActionBean;
 import water.ustc.db.User;
 
 public class LoginAction extends HttpServlet {

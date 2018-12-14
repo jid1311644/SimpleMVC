@@ -10,14 +10,15 @@ public class ActionBean {
 	private String methodName;
 	private ActionResult resultOK;
 	private ActionResult resultError;
-	private LinkedList<ActionInterceptor> actionInterceptors;
+	private LinkedList<ActionInterceptorRef> actionInterceptorRefs;
+	private LinkedList<InterceptorBean> actionInterceptors;
 	
 	public ActionBean(String actionName, String className, String methodName) {
 		// TODO Auto-generated constructor stub
 		this.actionName = actionName;
 		this.className = className;
 		this.methodName = methodName;
-		actionInterceptors = new LinkedList<>();
+		actionInterceptorRefs = new LinkedList<>();
 	}
 	
 	public void setResultOK(String resultName, String resultType, String resultValue) {
@@ -28,8 +29,12 @@ public class ActionBean {
 		this.resultError = new ActionResult(resultName, resultType, resultValue);
 	}
 	
-	public void addActionInterceptors(String interceptroRefName) {
-		this.actionInterceptors.add(new ActionInterceptor(interceptroRefName));
+	public void addActionInterceptorRefs(String interceptroRefName) {
+		this.actionInterceptorRefs.add(new ActionInterceptorRef(interceptroRefName));
+	}
+
+	public void setActionInterceptors(LinkedList<InterceptorBean> actionInterceptors) {
+		this.actionInterceptors = actionInterceptors;
 	}
 
 	public String getActionName() {
@@ -80,8 +85,20 @@ public class ActionBean {
 		}
 	}
 	
+	public LinkedList<String> getActionInterceptorsName() {
+		LinkedList<String> names = new LinkedList<>();
+		for(ActionInterceptorRef i:this.actionInterceptorRefs) {
+			names.add(i.getInterceptroRefName());
+		}
+		return names;
+	}
+
+	public LinkedList<InterceptorBean> getActionInterceptors() {
+		return actionInterceptors;
+	}
+
 	public void display() {
-		System.out.println("\nActionBean:\r\naction-name:" + actionName + "\r\n"
+		System.out.println("ActionBean:\r\naction-name:" + actionName + "\r\n"
 				+ "class-name:" + className + "\r\n"
 				+ "method-name:" + methodName + "\r\n"
 				+ "result-OK-name:" + resultOK.getResultName() + "\r\n"
@@ -91,7 +108,7 @@ public class ActionBean {
 				+ "result-Error-type:" + resultError.getResultType() + "\r\n"
 				+ "result-Error-value:" + resultError.getResultValue());
 		int count = 0;
-		for(ActionInterceptor i:this.actionInterceptors) {
+		for(ActionInterceptorRef i:this.actionInterceptorRefs) {
 			System.out.println("interceptors-" + (count++) + ":" + i.getInterceptroRefName());
 		}
 		System.out.println();
@@ -127,10 +144,10 @@ class ActionResult {
 }
 
 
-class ActionInterceptor {
+class ActionInterceptorRef {
 	private String interceptroRefName;
 	
-	public ActionInterceptor(String interceptroRefName) {
+	public ActionInterceptorRef(String interceptroRefName) {
 		// TODO Auto-generated constructor stub
 		this.interceptroRefName = interceptroRefName;
 	}
