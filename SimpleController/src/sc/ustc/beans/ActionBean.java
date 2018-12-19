@@ -18,6 +18,8 @@ public class ActionBean {
 		this.actionName = actionName;
 		this.className = className;
 		this.methodName = methodName;
+		this.resultOK = null;
+		this.resultError = null;
 		actionInterceptorRefs = new LinkedList<>();
 	}
 	
@@ -100,13 +102,16 @@ public class ActionBean {
 	public void display() {
 		System.out.println("ActionBean:\r\naction-name:" + actionName + "\r\n"
 				+ "class-name:" + className + "\r\n"
-				+ "method-name:" + methodName + "\r\n"
-				+ "result-OK-name:" + resultOK.getResultName() + "\r\n"
-				+ "result-OK-type:" + resultOK.getResultType() + "\r\n"
-				+ "result-OK-value:" + resultOK.getResultValue() + "\r\n"
-				+ "result-Error-name:" + resultError.getResultName() + "\r\n"
-				+ "result-Error-type:" + resultError.getResultType() + "\r\n"
-				+ "result-Error-value:" + resultError.getResultValue());
+				+ "method-name:" + methodName + "\r\n");
+		if(resultOK != null) {
+			System.out.println("result-OK-name:" + resultOK.getResultName() + "\r\n"
+					+ "result-OK-type:" + resultOK.getResultType() + "\r\n"
+					+ "result-OK-value:" + resultOK.getResultValue() + "\r\n"
+					+ "result-Error-name:" + resultError.getResultName() + "\r\n"
+					+ "result-Error-type:" + resultError.getResultType() + "\r\n"
+					+ "result-Error-value:" + resultError.getResultValue());
+		}
+				
 		int count = 0;
 		for(ActionInterceptorRef i:this.actionInterceptorRefs) {
 			System.out.println("interceptors-" + (count++) + ":" + i.getInterceptroRefName());

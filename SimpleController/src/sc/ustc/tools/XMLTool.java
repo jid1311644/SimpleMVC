@@ -3,7 +3,10 @@ package sc.ustc.tools;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -73,7 +76,7 @@ public class XMLTool {
 
 	//解析Action
 	public ActionBean readAction(String action, String path) 
-			throws FileNotFoundException {
+			throws IOException {
 		System.out.println("Call XMLTool.readAction ...");
 		//字节流读入
 		BufferedReader br = new BufferedReader(new FileReader(new File(path)));

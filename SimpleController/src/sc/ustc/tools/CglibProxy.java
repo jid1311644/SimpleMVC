@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -27,18 +28,21 @@ public class CglibProxy implements MethodInterceptor {
 		// TODO Auto-generated method stub
 		//执行action之前执行interceptor
 		interceptor(actionBean.getActionInterceptors(), true, 
-				(HttpServletRequest)args[0], actionBean.getActionName(), null);
+				(HttpServletRequest)args[0], (HttpServletResponse)args[1], 
+				actionBean.getActionName(), null);
 		//执行action
 		String result = (String)proxy.invokeSuper(obj, args);
 		//执行action之后执行interceptor
 		interceptor(actionBean.getActionInterceptors(), false, 
-				(HttpServletRequest)args[0], null, actionBean.getResultName(result));
+				(HttpServletRequest)args[0], (HttpServletResponse)args[1], 
+				null, actionBean.getResultName(result));
 		return result;
 	}
 	
 	//执行interceptor
 	private void interceptor(LinkedList<InterceptorBean> actionInterceptors,
-			boolean isPre, HttpServletRequest req, String actionName, String actionResult) {
+			boolean isPre, HttpServletRequest req,  HttpServletResponse resp,
+			String actionName, String actionResult) {
 		System.out.println("\nCall intercept " + (isPre?"pre": "after") + " ...");
 		if(isPre) {//根据isPro的值判断是执行action还是执行action之后
 			int count = 0;
@@ -52,8 +56,8 @@ public class CglibProxy implements MethodInterceptor {
 					//使用Java反射机制调用类的方法
 					Class<?> c = Class.forName(className);
 					Method m = c.getDeclaredMethod(methodName, 
-							HttpServletRequest.class, String.class);
-					m.invoke(c.newInstance(), req, actionName);
+							HttpServletRequest.class, HttpServletResponse.class, String.class);
+					m.invoke(c.newInstance(), req, resp, actionName);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -91,8 +95,8 @@ public class CglibProxy implements MethodInterceptor {
 					//使用Java反射机制调用类的方法
 					Class<?> c = Class.forName(className);
 					Method m = c.getDeclaredMethod(methodName, 
-							HttpServletRequest.class, String.class);
-					m.invoke(c.newInstance(), req, actionResult);
+							HttpServletRequest.class, HttpServletResponse.class, String.class);
+					m.invoke(c.newInstance(), req, resp, actionResult);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

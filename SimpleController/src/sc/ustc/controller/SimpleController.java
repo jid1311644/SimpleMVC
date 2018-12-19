@@ -1,6 +1,9 @@
 package sc.ustc.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -9,13 +12,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.JspFactory;
 
 import net.sf.cglib.proxy.Enhancer;
 import sc.ustc.beans.ActionBean;
 import sc.ustc.beans.InterceptorBean;
 import sc.ustc.tools.CglibProxy;
 import sc.ustc.tools.XMLTool;
+import sc.ustc.tools.XMLbyDOM;
 
 public class SimpleController extends HttpServlet {
 
@@ -91,27 +94,48 @@ public class SimpleController extends HttpServlet {
 					HttpServletRequest.class, 
 					HttpServletResponse.class);
 			
-			//利用Enhancer生成代理类
-			Enhancer enhancer = new Enhancer();
-			enhancer.setSuperclass(c);
-			enhancer.setCallback(new CglibProxy(actionBean));
-			Object cl = enhancer.create();
-			//实现代理类
-			String result = (String) m.invoke(cl, req, resp);
-			String resName = actionBean.getResultName(result);
-			String resType = actionBean.getResultType(result);
-			String resValue = actionBean.getResultValue(result);
-			
-			//解析得到返回值result的具体内容，根据value值进行页面跳转
-			System.out.println("Action result:\nresult-name=" + resName
-					+ "\nresult-type=" + resType + "\nresult-value=" + resValue);
-			if(resType.equals("foward")) {
-				req.getRequestDispatcher(resValue).forward(req, resp);
+			//LogoutAction的执行
+			if(actionBean.getActionName().equals("logout") || 
+					actionBean.getActionName().equals("viewTest")) {
+				m.invoke(c.newInstance(), req, resp);
 			}
-			else if(resType.equals("redirect")) {
-				resp.sendRedirect(resValue);
+			//其它action的执行
+			else {
+				//利用Enhancer生成代理类
+				Enhancer enhancer = new Enhancer();
+				enhancer.setSuperclass(c);
+				enhancer.setCallback(new CglibProxy(actionBean));
+				Object cl = enhancer.create();
+				//实现代理类
+				String result = (String) m.invoke(cl, req, resp);
+				String resName = actionBean.getResultName(result);
+				String resType = actionBean.getResultType(result);
+				String resValue = actionBean.getResultValue(result);
+				
+				//解析得到返回值result的具体内容，根据value值进行页面跳转
+				System.out.println("Action result:\nresult-name=" + resName
+						+ "\nresult-type=" + resType + "\nresult-value=" + resValue);
+				if(resType.equals("foward")) {
+					if(resValue.endsWith("_view.xml")) {
+						//需要处理的视图
+						System.out.println("\nController loading view ...");
+						String viewPath = this.getServletContext().getRealPath("views/" + resValue);;
+						System.out.println("path:" + viewPath);
+						String jsp = new XMLbyDOM().readView(viewPath);
+						System.out.println(jsp);
+						//加载视图
+						PrintWriter out = resp.getWriter();
+						out.write(jsp);
+					}
+					else {
+						req.getRequestDispatcher(resValue).forward(req, resp);
+					}
+				}
+				else if(resType.equals("redirect")) {
+					resp.sendRedirect(resValue);
+				}
+				System.out.println("action back:" + actionBean.getActionName() + "\n");
 			}
-			System.out.println("action back:" + actionBean.getActionName() + "\n");
 		} catch (ClassNotFoundException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -131,10 +155,10 @@ public class SimpleController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		catch (InstantiationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//在根据action中引用的拦截器名字寻找对应拦截器

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view>
+	<header>
+		<title>a viewer in MVC</title>
+	</header>
+	<body>
+		<form>
+			<name>logoutForm</name>
+			<action>logout.sc</action>
+			<method>postLogout</method>
+			<textView>
+				<name>userName</name>
+				<label-front>Login Name:</label-front>
+				<value>Water</value>
+			</textView>
+			<textView>
+				<name>userAge</name>
+				<label-front>Age:</label-front>
+				<value>30</value>
+			</textView>
+			<buttonView>
+				<name>logoutButton</name>
+				<value>Logout</value>
+			</buttonView>
+		</form>
+		
+		<form>
+			<name>testForm</name>
+			<action>viewTest.sc</action>
+			<method>postViewTest</method>
+			<textView>
+				<name>textViewTest</name>
+				<label-front>Click to logout:</label-front>
+				<isClick>true</isClick>
+				<href>/UseSC/views/login.jsp</href>
+				<href-label>Logout!</href-label>
+			</textView>
+			<textField>
+				<name>textFieldTest</name>
+				<label-front>Username:</label-front>
+			</textField>
+			<textField>
+				<name>pswFieldTest</name>
+				<label-front>Password:</label-front>
+				<isPassword>true</isPassword>
+			</textField>
+			<checkBox>
+				<name>checkBoxTest1</name>
+				<label-behind>CheckBox1</label-behind>
+				<isChecked>true</isChecked>
+			</checkBox>
+			<checkBox>
+				<name>checkBoxTest2</name>
+				<label-behind>CheckBox2</label-behind>
+			</checkBox>
+			<radioGroup>
+				<name>radioGroupTest</name>
+				<label-front>Sex:</label-front>
+				<radioBox>
+					<value>male</value>
+					<label-behind>Male</label-behind>
+				</radioBox>
+				<radioBox>
+					<value>female</value>
+					<label-behind>Female</label-behind>
+					<isChecked>true</isChecked>
+				</radioBox>
+			</radioGroup>
+			<listView>
+				<name>listViewTest</name>
+				<label-front>Select Year:</label-front>
+				<option>
+					<value>0</value>
+					<item>--choose--</item>
+					<isSelected>true</isSelected>
+				</option>
+				<option>
+					<value>1</value>
+					<item>1992</item>
+				</option>
+				<option>
+					<value>2</value>
+					<item>1993</item>
+				</option>
+				<option>
+					<value>3</value>
+					<item>1994</item>
+				</option>
+				<option>
+					<value>4</value>
+					<item>1995</item>
+				</option>
+				<option>
+					<value>5</value>
+					<item>1996</item>
+				</option>
+			</listView>
+			<buttonView>
+				<name>testButton</name>
+				<value>View Test</value>
+			</buttonView>
+		</form>
+		
+	</body>
+</view>
