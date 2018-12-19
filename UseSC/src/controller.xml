@@ -23,7 +23,7 @@
 			class="water.ustc.action.LoginAction"
 			method="handleLogin">
 			<interceptro-ref name="interceptorStack"></interceptro-ref>
-			<result name="ok" type="foward" value="welcome.jsp"></result>
+			<result name="ok" type="foward" value="success_view.xml"></result>
 			<result name="error" type="redirect" value="login.jsp"></result>
 		</action>
 		
@@ -34,6 +34,16 @@
 			<interceptro-ref name="time"></interceptro-ref>
 			<result name="ok" type="foward" value="welcome.jsp"></result>
 			<result name="error" type="redirect" value="regist.jsp"></result>
+		</action>
+		
+		<action name="logout"
+			class="water.ustc.action.LogoutAction"
+			method="postLogout">
+		</action>
+		
+		<action name="viewTest"
+			class="water.ustc.action.LogoutAction"
+			method="postViewTest">
 		</action>
 	</controller>
 </sc-configuration>

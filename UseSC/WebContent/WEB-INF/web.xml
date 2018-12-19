@@ -17,7 +17,7 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>/UseSC/jsp/login.jsp</welcome-file>
+		<welcome-file>/UseSC/views/login.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

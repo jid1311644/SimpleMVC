@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import water.ustc.db.Log;
 
@@ -16,14 +17,14 @@ public class LogInterceptor {
 	static private String endTime;
 	static private String result;
 	
-	public void preAction(HttpServletRequest req, String actionName) {
+	public void preAction(HttpServletRequest req, HttpServletResponse resp, String actionName) {
 		System.out.println("Call LogInterceptor.preAction ...");
 		//记录当前action的名字
 		name = actionName;
 		System.out.println("LogInterceptor.preAction back!");
 	}
 	
-	public void afterAction(HttpServletRequest req, String actionResult) {
+	public void afterAction(HttpServletRequest req, HttpServletResponse resp, String actionResult) {
 		System.out.println("Call LogInterceptor.afterAction ...");
 		//记录当前action的结果
 		result = actionResult;

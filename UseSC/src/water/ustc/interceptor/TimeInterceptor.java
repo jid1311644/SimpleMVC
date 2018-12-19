@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class TimeInterceptor {
 	
-	public void preAction(HttpServletRequest req, String actionName) {
+	public void preAction(HttpServletRequest req, HttpServletResponse resp, String actionName) {
 		System.out.println("Call TimeInterceptor.preAction ...");
 		//记录当前action执行前的时间
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
@@ -17,7 +18,7 @@ public class TimeInterceptor {
 		System.out.println("TimeInterceptor.preAction back!");
 	}
 	
-	public void afterAction(HttpServletRequest req, String actionResult) {
+	public void afterAction(HttpServletRequest req, HttpServletResponse resp, String actionResult) {
 		System.out.println("Call TimeInterceptor.afterAction ...");
 		//记录当前action执行后的时间
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
