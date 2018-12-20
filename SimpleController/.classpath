@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="lib" path="lib/dom.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.12.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.23.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import sc.ustc.beans.ActionBean;
 import water.ustc.db.User;
+import water.ustc.user.UserBean;
 
 public class LoginAction extends HttpServlet {
 	
@@ -22,7 +22,7 @@ public class LoginAction extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		System.out.println("Call handleLogin	id:" + id + "	password:" + password);
-		if(new User(id, password).login()) {
+		if(new UserBean(id, password).signIn()) {
 			session.setAttribute("id", id);
 			System.out.println("handleLogin back!");
 			return "ok";

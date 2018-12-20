@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import water.ustc.db.User;
+import water.ustc.user.UserBean;
 
 public class RegistAction extends HttpServlet {
 
@@ -26,7 +27,7 @@ public class RegistAction extends HttpServlet {
 			System.out.println("handleRegist back!");
 			return "error";
 		}
-		else if(new User(id, password).regist()) {
+		else if(new UserBean(id, password).signUp()) {
 			session.setAttribute("id", id);
 			System.out.println("handleRegist back!");
 			return "ok";
