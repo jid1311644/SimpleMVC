@@ -109,5 +109,65 @@
 		<e-time>2018-12-20 14:12:42:834</e-time>
 		<result>error</result>
 	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:14:07:394</s-time>
+		<e-time>2018-12-20 15:14:07:850</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:17:53:380</s-time>
+		<e-time>2018-12-20 15:17:53:824</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:20:00:661</s-time>
+		<e-time>2018-12-20 15:20:00:729</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-20 15:21:22:907</s-time>
+		<e-time>2018-12-20 15:21:23:148</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-20 15:22:13:876</s-time>
+		<e-time>2018-12-20 15:22:14:099</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:26:10:207</s-time>
+		<e-time>2018-12-20 15:26:10:336</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:26:49:565</s-time>
+		<e-time>2018-12-20 15:26:49:756</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-20 15:27:24:786</s-time>
+		<e-time>2018-12-20 15:27:24:788</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-20 15:28:28:651</s-time>
+		<e-time>2018-12-20 15:28:28:677</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-20 15:29:07:594</s-time>
+		<e-time>2018-12-20 15:29:07:835</e-time>
+		<result>ok</result>
+	</action>
 	<!-- other actions -->
 </log>

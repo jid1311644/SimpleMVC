@@ -29,12 +29,12 @@ public class RegistAction extends HttpServlet {
 		}
 		else if(new UserBean(id, password).signUp()) {
 			session.setAttribute("id", id);
-			System.out.println("handleRegist back!");
+			System.out.println("handleRegist back:OK!");
 			return "ok";
 		}
 		else {
 			session.setAttribute("registMessage", "ID already exists!");
-			System.out.println("handleRegist back!");
+			System.out.println("handleRegist back:ID already exists!");
 			return "error";
 		}
 	}

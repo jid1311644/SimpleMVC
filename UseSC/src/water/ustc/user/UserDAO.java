@@ -41,6 +41,7 @@ public class UserDAO extends BaseDAO {
 		}catch (Exception e) {
 			// TODO: handle exception
 			//插入失败说明用户已存在
+			System.out.println("Error executing sql.");
 			f = false;
 		}
 		return f;
@@ -78,6 +79,7 @@ public class UserDAO extends BaseDAO {
 			closeDBConnection(c);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Error executing sql.");
 			e.printStackTrace();
 		}
 		return userBean;

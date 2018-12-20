@@ -24,12 +24,12 @@ public class LoginAction extends HttpServlet {
 		System.out.println("Call handleLogin	id:" + id + "	password:" + password);
 		if(new UserBean(id, password).signIn()) {
 			session.setAttribute("id", id);
-			System.out.println("handleLogin back!");
+			System.out.println("handleLogin back:OK!");
 			return "ok";
 		}
 		else {
 			session.setAttribute("loginMessage", "ID or password error!");
-			System.out.println("handleLogin back!");
+			System.out.println("handleLogin back:ID or password error!");
 			return "error";
 		}
 	}
