@@ -1,4 +1,4 @@
-package water.ustc.user;
+package water.ustc.db.user;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import sc.ustc.dao.BaseDAO;
 
@@ -14,6 +15,10 @@ public class UserDAO extends BaseDAO {
 	public UserDAO(String driver, String url, 
 			String userName, String userPassword) {
 		super(driver, url, userName, userPassword);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public UserDAO() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -70,8 +75,7 @@ public class UserDAO extends BaseDAO {
 			}
 			if(count == 1) {
 				//若找到用户则为userBean对象初始化赋值
-				userBean = new UserBean(userId, password);
-				userBean.setUserName(userName);
+				userBean = new UserBean(userId, userName, password);
 			}
 			rs.close();
 			st.close();
@@ -89,6 +93,55 @@ public class UserDAO extends BaseDAO {
 	protected boolean update(String sql) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	//根据OR-Mapping使用数据库
+	//property是要select的属性，value是select条件where中的属性和值
+	protected ArrayList<UserBean> query(UserBean property, UserBean value) {
+		ArrayList<UserBean> userBeans = new ArrayList<>();
+		ResultSet rs = (ResultSet) queryByOR(property, value);
+		boolean selectUserId = property.getUserId() != null;
+		boolean selectUserName = property.getUserName() != null;
+		boolean selectUserPass = property.getUserPass() != null;
+		System.out.println("This is UserDAO.query." + selectUserId + selectUserName + selectUserPass);
+		String userId = null;
+		String userName = null;
+		String userPass = null;
+		int i = 0;
+		try {
+			while(rs.next()) {
+				System.out.println("while" + i++);
+				if(selectUserId) {
+					userId = rs.getString("id");
+					System.out.println("while id:" + userId);
+				}
+				if(selectUserName) {
+					userName = rs.getString("username");
+					System.out.println("while name:" + userName);
+				}
+				if(selectUserPass) {
+					userPass = rs.getString("password");
+					System.out.println("while psw:" + userPass);
+				}
+				userBeans.add(new UserBean(userId, userName, userPass));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userBeans;
+	}
+	//value是要插入的数据
+	protected boolean insert(UserBean value) {
+		return insertByOR(value);
+	}
+	//property是要更新的列和新值， value是where中的属性和值
+	protected boolean update(UserBean property, UserBean value) {
+		return update(property, value);
+	}
+	//根据value中的属性和其值delete元组
+	protected boolean delete(UserBean value) {
+		return delete(value);
 	}
 
 }

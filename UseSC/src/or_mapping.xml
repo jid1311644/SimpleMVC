@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OR-Mappings>
+	<jdbc>
+		<property>
+			<name>driver_class</name>
+			<value>com.mysql.cj.jdbc.Driver</value>
+		</property>
+		<property>
+			<name>url_path</name>
+			<value>jdbc:mysql://localhost:3306/j2ee_expiration_data</value>
+			<serverTimezone>GMT%2B8</serverTimezone>
+			<useSSL>false</useSSL>
+		</property>
+		<property>
+			<name>db_username</name>
+			<value>root</value>
+		</property>
+		<property>
+			<name>db_userpassword</name>
+			<value>Jellal20143647</value>
+		</property>
+	</jdbc>
+	<class>
+		<name>water.ustc.db.user.UserBean</name>
+		<table>user</table>
+		<key-property>
+			<name>userId</name>
+			<column>id</column>
+			<type>String</type>
+			<lazy>false</lazy>
+		</key-property>
+		<property>
+			<name>userName</name>
+			<column>username</column>
+			<type>String</type>
+			<lazy>false</lazy>
+		</property>
+		<property>
+			<name>userPass</name>
+			<column>password</column>
+			<type>String</type>
+			<lazy>true</lazy>
+		</property>
+		<!-- other properties -->
+	</class>
+	<class>
+		<name>water.ustc.db.score.ScoreBean</name>
+		<table>score</table>
+		<key-property>
+			<name>userId</name>
+			<column>id</column>
+			<type>String</type>
+			<lazy>false</lazy>
+		</key-property>
+		<key-property>
+			<name>subject</name>
+			<column>sname</column>
+			<type>String</type>
+			<lazy>false</lazy>
+		</key-property>
+		<property>
+			<name>score</name>
+			<column>score</column>
+			<type>Integer</type>
+			<lazy>false</lazy>
+		</property>
+		<property>
+			<name>pass</name>
+			<column>pass</column>
+			<type>Boolean</type>
+			<lazy>false</lazy>
+		</property>
+		<!-- other properties -->
+	</class>
+	<!-- other classes -->
+</OR-Mappings>
+
+
+

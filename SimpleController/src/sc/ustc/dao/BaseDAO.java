@@ -2,7 +2,10 @@ package sc.ustc.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import sc.ustc.dao.conversate.Conversation;
 
 
 public abstract class BaseDAO {
@@ -12,6 +15,9 @@ public abstract class BaseDAO {
 	protected String userName;
 	protected String userPassword;
 	
+	private Conversation conversation;
+	
+	//直接使用数据库
 	public BaseDAO(String driver, String url, 
 			String userName, String userPassword) {
 		// TODO Auto-generated constructor stub
@@ -19,6 +25,12 @@ public abstract class BaseDAO {
 		this.url = url;
 		this.userName = userName;
 		this.userPassword = userPassword;
+	}
+	
+	//通过OR-Mapping使用数据库
+	public BaseDAO() {
+		// TODO Auto-generated constructor stub
+		this.conversation = new Conversation();
 	}
 	
 	//打开数据库连接
@@ -78,5 +90,22 @@ public abstract class BaseDAO {
 	//执行删除数据的sql语句并返回执行结果
 	protected abstract boolean delete(String sql);
 	
+	//根据OR-Mapping使用数据库
+	//property是要select的属性，value是select条件where中的属性和值
+	protected Object queryByOR(Object property, Object value) {
+		return conversation.selectObject(property, value);
+	}
+	//value是要插入的数据
+	protected boolean insertByOR(Object value) {
+		return conversation.insertObject(value);
+	}
+	//property是要更新的列和新值， value是where中的属性和值
+	protected boolean updateByOR(Object property, Object value) {
+		return conversation.updateObject(property, value);
+	}
+	//根据value中的属性和其值delete元组
+	protected boolean deleteByOR(Object value) {
+		return conversation.deleteObject(value);
+	}
 
 }
