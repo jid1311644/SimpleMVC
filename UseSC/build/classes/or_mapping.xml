@@ -39,7 +39,7 @@
 			<name>userPass</name>
 			<column>password</column>
 			<type>String</type>
-			<lazy>true</lazy>
+			<lazy>false</lazy>
 		</property>
 		<!-- other properties -->
 	</class>

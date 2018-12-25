@@ -79,8 +79,7 @@ public class Configuration {
 						propertyPoint.indexOf("</value>"));
 			}
 		}
-		if(driver.equals("") || url.equals("") || 
-				dbUserName.equals("") || dbUserPsw.equals("")) {
+		if(driver.equals("") || url.equals("")) {
 			//如果存在空值说明配置文件格式有问题或者解析失败
 			System.out.println("readOR error:jdbc");
 		}

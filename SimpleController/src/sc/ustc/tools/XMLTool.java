@@ -3,28 +3,28 @@ package sc.ustc.tools;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 import sc.ustc.beans.ActionBean;
 import sc.ustc.beans.InterceptorBean;
+import sc.ustc.di.DiBean;
+import sc.ustc.di.DiField;
 
 public class XMLTool {
 	
-	//解析Interceptor
-	public LinkedList<InterceptorBean> readInterceptor(String path) 
-			throws FileNotFoundException {
-		System.out.println("Call XMLTool.readInterceptor ...");
+	private StringBuilder sb;
+	
+	public XMLTool(String path) {
+		// TODO Auto-generated constructor stub
 		//字节流读入
-		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
-		StringBuilder sb = new StringBuilder();
+		sb = new StringBuilder();
 		String line = null;
 		try {
+			BufferedReader br = new BufferedReader(new FileReader(new File(path)));
 			while((line = br.readLine()) != null) {
 				sb.append(line);
 			}
@@ -32,7 +32,11 @@ public class XMLTool {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+	}
+	
+	//解析Interceptor
+	public LinkedList<InterceptorBean> readInterceptor() {
+		System.out.println("Call XMLTool.readInterceptor ...");
 		//解析拦截器，读取拦截器部分XML代码
 		LinkedList<InterceptorBean> beans = new LinkedList<>();
 		String interceptorXML = sb.toString();
@@ -75,21 +79,8 @@ public class XMLTool {
 	}
 
 	//解析Action
-	public ActionBean readAction(String action, String path) 
-			throws IOException {
+	public ActionBean readAction(String action) {
 		System.out.println("Call XMLTool.readAction ...");
-		//字节流读入
-		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
-			while((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
 		String[] sl = sb.toString().split("</action>");
 		for(int i = 0; i < sl.length; i++) {
 			//解析action名，如果与用户输入的action符合继续进行解析
@@ -132,6 +123,56 @@ public class XMLTool {
 		}
 		System.out.println("XMLTool.readAction back!");
 		return null;
+	}
+	
+	//解析依赖注入文件di.xml
+	public DiBean readDi(String beanID, String beanClass) {
+		System.out.println("Call XMLTool.readDi ...");
+		System.out.println("beanID:" + beanID + "	beanClass:" + beanClass);
+		DiBean diBean = null;
+		String[] beans = sb.toString().split("<bean ");
+		String bean = null;
+		boolean f = false;
+		//根据di的bean或者class解析di文件
+		for(int i = 1; i < beans.length; i++) {
+			bean = beans[i].substring(0, beans[i].indexOf("</bean>"));
+			if(beanID != null) {
+				if(bean.indexOf("id=\"" + beanID + "\"") != -1) {
+					f = true;
+					break;
+				}
+			}
+			else if(beanClass != null) {
+				if(bean.indexOf("class=\"" + beanClass + "\"") != -1) {
+					f = true;
+					break;
+				}
+			}
+		}
+		if(f) {
+			String id = bean.substring(bean.indexOf("id=\"") + 4);
+			id = id.substring(0, id.indexOf("\""));
+			String clasS = bean.substring(bean.indexOf("class=\"") + 7);
+			clasS = clasS.substring(0, clasS.indexOf("\""));
+			if(!id.equals("") && !clasS.equals("")) {
+				diBean = new DiBean(id, clasS);
+				//判断是否根节点，即没有其他类依赖这个类
+				if(beanID == null && beanClass != null) {
+					diBean.setParentBean(null);
+				}
+				String[] fields = bean.split("<field ");
+				for(int i = 1; i < fields.length; i++) {
+					String field = fields[i].substring(0, fields[i].indexOf("</field>"));
+					String name = field.substring(field.indexOf("name=\"") + 6);
+					name = name.substring(0, name.indexOf("\""));
+					String beanRef = field.substring(field.indexOf("bean-ref=\"") + 10);
+					beanRef = beanRef.substring(0, beanRef.indexOf("\""));
+					diBean.addDiField(new DiField(name, beanRef));
+				}
+			}
+		}
+		System.out.println("XMLTool.readDi back!");
+		return diBean;
 	}
 	
 }

@@ -20,6 +20,7 @@ public class UserDAO extends BaseDAO {
 	
 	public UserDAO() {
 		// TODO Auto-generated constructor stub
+		System.out.println("This is constructor UserDAO().");
 	}
 
 	@Override
@@ -103,25 +104,20 @@ public class UserDAO extends BaseDAO {
 		boolean selectUserId = property.getUserId() != null;
 		boolean selectUserName = property.getUserName() != null;
 		boolean selectUserPass = property.getUserPass() != null;
-		System.out.println("This is UserDAO.query." + selectUserId + selectUserName + selectUserPass);
+		System.out.println("This is UserDAO.query " + selectUserId + selectUserName + selectUserPass);
 		String userId = null;
 		String userName = null;
 		String userPass = null;
-		int i = 0;
 		try {
 			while(rs.next()) {
-				System.out.println("while" + i++);
 				if(selectUserId) {
 					userId = rs.getString("id");
-					System.out.println("while id:" + userId);
 				}
 				if(selectUserName) {
 					userName = rs.getString("username");
-					System.out.println("while name:" + userName);
 				}
 				if(selectUserPass) {
 					userPass = rs.getString("password");
-					System.out.println("while psw:" + userPass);
 				}
 				userBeans.add(new UserBean(userId, userName, userPass));
 			}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view>
+	<header>
+		<title>Not Found!</title>
+	</header>
+	<body>
+		<form>
+			<name>notFoundForm</name>
+			<action></action>
+			<method></method>
+			<textView>
+				<name>notFound</name>
+				<label-front>404:Unable to identify the request.</label-front>
+			</textView>
+			<textView>
+				<name>back</name>
+				<isClick>true</isClick>
+				<href>/UseSC/views/login.jsp</href>
+				<href-label>Click back.</href-label>
+			</textView>
+		</form>
+	</body>
+</view>

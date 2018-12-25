@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sc-di>
+	<bean id="userDao"
+		class="water.ustc.db.user.UserDAO">
+	</bean>
+	<bean id="scoreDao"
+		class="water.ustc.db.score.ScoreDAO">
+	</bean>
+	<bean id="score" 
+		class="water.ustc.db.score.ScoreBean">
+		<field name="scoreDAO"
+			bean-ref="scoreDao"></field>
+	</bean>
+	<bean id="user" 
+		class="water.ustc.db.user.UserBean">
+		<field name="userDAO"
+			bean-ref="userDao"></field>
+		<field name="scoreBean"
+			bean-ref="score"></field>
+	</bean>
+	<bean id="loginAction"
+		class="water.ustc.action.LoginAction">
+		<field name="userBean"
+			bean-ref="user"></field>
+	</bean>
+	<!-- some beans -->
+</sc-di>

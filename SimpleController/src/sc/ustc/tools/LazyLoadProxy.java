@@ -27,12 +27,12 @@ public class LazyLoadProxy implements LazyLoader {
 		Class.forName(jdbc.getDriver());
 		
 		//MySQL
-		Connection c = DriverManager.getConnection(jdbc.getUrl(), 
+		Connection c = DriverManager.getConnection(jdbc.getUrl() + "&allowPublicKeyRetrieval=true", 
 				jdbc.getDbUserName(), jdbc.getDbUserPassword());
 		//SQLite
 //		Connection c = DriverManager.getConnection(jdbc.getUrl());
 		String sql = "select password from user where id='" + userId + "'";
-		System.out.println("SQL:" + sql);
+		System.out.println("LazyLoadProcy SQL:" + sql);
 		PreparedStatement ps = c.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		LazyUserPassword psw = null;

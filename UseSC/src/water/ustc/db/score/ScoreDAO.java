@@ -9,6 +9,11 @@ public class ScoreDAO extends BaseDAO {
 		super(driver, url, userName, userPassword);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public ScoreDAO() {
+		// TODO Auto-generated constructor stub
+		System.out.println("This is constructor ScoreDAO().");
+	}
 
 	@Override
 	protected boolean delete(String arg0) {

@@ -1,7 +1,5 @@
 package sc.ustc.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -50,9 +48,10 @@ public class SimpleController extends HttpServlet {
 		System.out.println("\nactionName:" + actionName);
 		String path = this.getServletContext().getRealPath("WEB-INF/classes/controller.xml");
 		System.out.println("path:" + path + "\n");
+		XMLTool tool = new XMLTool(path);
 		
 		//调用readInterceptor方法实现对拦截器的解析
-		LinkedList<InterceptorBean> interceptorBeans = new XMLTool().readInterceptor(path);
+		LinkedList<InterceptorBean> interceptorBeans = tool.readInterceptor();
 		int count = 0;
 		System.out.println("readInterceptor result:");
 		for(InterceptorBean i: interceptorBeans) {
@@ -62,19 +61,32 @@ public class SimpleController extends HttpServlet {
 		System.out.println();
 		
 		//调用readAction方法实现对action具体内容的解析
-		ActionBean actionBean = new XMLTool().readAction(actionName, path);
-		System.out.println("readAction result:");
-		actionBean.display();
-		
-		//获取action中的所有拦截器
-		LinkedList<InterceptorBean> actionInterceptors = new LinkedList<>();
-		for(String interceptorName: actionBean.getActionInterceptorsName()) {
-			searchInterceptor(interceptorBeans, actionInterceptors, interceptorName);
+		ActionBean actionBean = tool.readAction(actionName);
+		//处理无法识别请求的情况
+		if(actionBean == null) {
+			System.out.println("Unable to identify the request!");
+			System.out.println("\nController loading view ...");
+			String viewPath = this.getServletContext().getRealPath("views/notfound_view.xml");
+			System.out.println("path:" + viewPath);
+			String jsp = new XMLbyDOM().readView(viewPath);
+			System.out.println(jsp);
+			//加载视图
+			PrintWriter out = resp.getWriter();
+			out.write(jsp);
 		}
-		actionBean.setActionInterceptors(actionInterceptors);
-		//执行action
-		action(actionBean, req, resp);
-		
+		else {
+			System.out.println("readAction result:");
+			actionBean.display();
+			
+			//获取action中的所有拦截器
+			LinkedList<InterceptorBean> actionInterceptors = new LinkedList<>();
+			for(String interceptorName: actionBean.getActionInterceptorsName()) {
+				searchInterceptor(interceptorBeans, actionInterceptors, interceptorName);
+			}
+			actionBean.setActionInterceptors(actionInterceptors);
+			//执行action
+			action(actionBean, req, resp);
+		}
 		System.out.println("doPost back!");
 		
 	}

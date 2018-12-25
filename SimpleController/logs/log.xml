@@ -271,5 +271,83 @@
 		<e-time>2018-12-22 18:46:07:481</e-time>
 		<result>ok</result>
 	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-22 21:20:12:353</s-time>
+		<e-time>2018-12-22 21:20:12:481</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-22 21:23:38:856</s-time>
+		<e-time>2018-12-22 21:23:38:880</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-22 21:26:05:312</s-time>
+		<e-time>2018-12-22 21:26:07:134</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-22 21:42:30:363</s-time>
+		<e-time>2018-12-22 21:42:31:105</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-22 21:44:46:074</s-time>
+		<e-time>2018-12-22 21:44:46:847</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-23 13:34:53:055</s-time>
+		<e-time>2018-12-23 13:34:53:836</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>regist</name>
+		<s-time>2018-12-23 13:35:25:144</s-time>
+		<e-time>2018-12-23 13:35:25:399</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-23 13:35:38:452</s-time>
+		<e-time>2018-12-23 13:35:38:565</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-23 13:36:07:400</s-time>
+		<e-time>2018-12-23 13:36:07:418</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-25 09:25:58:488</s-time>
+		<e-time>2018-12-25 09:25:59:948</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-25 09:27:39:383</s-time>
+		<e-time>2018-12-25 09:27:39:449</e-time>
+		<result>ok</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-25 10:16:07:177</s-time>
+		<e-time>2018-12-25 10:16:08:038</e-time>
+		<result>error</result>
+	</action>
+	<action>
+		<name>login</name>
+		<s-time>2018-12-25 16:50:04:969</s-time>
+		<e-time>2018-12-25 16:50:05:471</e-time>
+		<result>error</result>
+	</action>
 	<!-- other actions -->
 </log>
