@@ -14,7 +14,7 @@ public class UserBean {
 	private static final String MYSQL_DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/j2ee_expiration_data?serverTimezone=GMT%2B8&useSSL=false";
 	private static final String MYSQL_USERNAME = "root";
-	private static final String MYSQL_PASSWORD = "Jellal20143647";
+	private static final String MYSQL_PASSWORD = "********";
 	
 	private static final String SQLITE_DRIVER = "org.sqlite.JDBC";
 	private static final String SQLITE_URL = "jdbc:sqlite:D:/SQLite/j2ee_expiration_data.db";
@@ -47,7 +47,7 @@ public class UserBean {
 				LazyUserPassword.class, new LazyLoadProxy(this.userId));
 	}
 	/*
-	//µÇÂ¼Ê±ĞèÒªselect password£¬ÑÓ³Ù¼ÓÔØ
+	//ç™»å½•æ—¶éœ€è¦select passwordï¼Œå»¶è¿ŸåŠ è½½
 	public boolean signIn() {
 		System.out.println("Call UserBean.signIn with lazy-loading\r\n"
 				+ "	id:" + userId + "	password:" + userPass);
@@ -65,7 +65,7 @@ public class UserBean {
 		}
 	}*/
 	
-	//Í¨¹ıdi.xmlÅäÖÃÎÄ¼ş£¬JavaÄÚÊ¡»úÖÆÊµÏÖµÇÂ¼
+	//é€šè¿‡di.xmlé…ç½®æ–‡ä»¶ï¼ŒJavaå†…çœæœºåˆ¶å®ç°ç™»å½•
 	public boolean signIn() {
 		System.out.println("Call UserBean.signIn"
 				+ "	id:" + userId + "	password:" + userPass);
@@ -85,20 +85,20 @@ public class UserBean {
 		}
 	}
 	
-/*	//µÇÂ¼
+/*	//ç™»å½•
 	public boolean signIn() {
 		System.out.println("Call UserBean.signIn"
 				+ "	id:" + userId + "	password:" + userPass);
 		String sql = "select * from user "
 				+ "where id='" + userId + "'";
-		//Ê¹ÓÃMySQL
+		//ä½¿ç”¨MySQL
 		UserBean userBean = (UserBean) new UserDAO(
 				MYSQL_DRIVER, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD).query(sql);
-		//Ê¹ÓÃSQLite
+		//ä½¿ç”¨SQLite
 //		UserBean userBean = (UserBean) new UserDAO(
 //				SQLITE_DRIVER, SQLITE_URL, SQLITE_USERNAME, SQLITE_PASSWORD).query(sql);
 		if(userBean == null) {
-			//ÓÃ»§²»´æÔÚ
+			//ç”¨æˆ·ä¸å­˜åœ¨
 			return false;
 		}
 		else {
@@ -106,22 +106,22 @@ public class UserBean {
 				return true;
 			}
 			else {
-				//ÃÜÂë´íÎó
+				//å¯†ç é”™è¯¯
 				return false;
 			}
 		}
 	}*/
 	
-	//×¢²á
+	//æ³¨å†Œ
 	public boolean signUp() {
 		System.out.println("Call UserBean.signUp"
 				+ "	id:" + userId + "	password:" + userPass);
 //		String sql = "insert into user values('" + userId + "','" +
 //				userPass + "','" + userId + "')";
-//		//Ê¹ÓÃMySQL
+//		//ä½¿ç”¨MySQL
 //		return new UserDAO(MYSQL_DRIVER, MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD).
 //				insert(sql);
-//		//Ê¹ÓÃSQLite
+//		//ä½¿ç”¨SQLite
 ////		return new UserDAO(SQLITE_DRIVER, SQLITE_URL, SQLITE_USERNAME, SQLITE_PASSWORD).
 ////				insert(sql);
 		return new UserDAO().insert(new UserBean(userId, userId, userPass));
