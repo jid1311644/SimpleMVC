@@ -17,7 +17,7 @@
 		</property>
 		<property>
 			<name>db_userpassword</name>
-			<value>Jellal20143647</value>
+			<value>********</value>
 		</property>
 	</jdbc>
 	<class>
